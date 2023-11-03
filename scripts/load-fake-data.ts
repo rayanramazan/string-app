@@ -1,11 +1,12 @@
 import { Client } from "pg";
 import { loadEnvConfig } from "@next/env";
+import { faker } from "@faker-js/faker";
 
 const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 
 async function loadFakeData (numUser: number = 10) {
-    console.log(`Users generation by ${numUser} users ${process.env.POSTGRES_HOST}`);
+    console.log(`Users generation by ${numUser} users`);
 
     const client = new Client({
         user: process.env.POSTGRES_USER,
@@ -17,9 +18,25 @@ async function loadFakeData (numUser: number = 10) {
 
     await client.connect();
 
-    const res = await client.query('SELECT 1');
-    console.log(res);
-    await client.end();
+    try {
+        await client.query('BEGIN');
+        for (let i = 0; i < numUser; i++) {
+            await client.query('insert into public.users (username, password, avatar) values ($1, $2, $3)', [
+                faker.internet.userName(),
+                '123456',
+                faker.image.avatar()
+            ]);
+        }
+        await client.query('COMMIT');
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        await client.end();
+    }
 }
 
-loadFakeData();
+// process.argv[2] is the first argument after the command
+const numUser = parseInt(process.argv[2] ?? 10);
+console.log(`loading ${numUser} fake users`);
+loadFakeData(numUser);
