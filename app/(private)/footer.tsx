@@ -1,5 +1,7 @@
 export default function Footer() {
     return (
-        <footer>Footer</footer>
+        <footer
+            className="text-center mt-4 font-bold"
+        >&copy; String {new Date().getFullYear()}</footer>
     )
 }

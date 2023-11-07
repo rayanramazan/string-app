@@ -15,7 +15,7 @@ export default function PrivateLayout({
         <SWRConfig
             value={{fetcher: fetcher}}
         >
-            <div className="mx-4">
+            <div className=" max-w-md mx-auto">
                 <Header />
                 <NavBar />
                 <main>

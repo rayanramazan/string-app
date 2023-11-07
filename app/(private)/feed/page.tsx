@@ -1,7 +1,7 @@
 export default async function Feed() {
     return (
-        <main>
-            <h1>Feed</h1>
+        <main className="flex flex-col bg-slate-600 p-4 mt-4 rounded">
+            <h1 className="text-white">Feed</h1>
         </main>
     )
 }
