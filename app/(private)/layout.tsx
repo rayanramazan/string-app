@@ -18,7 +18,7 @@ export default function PrivateLayout({
             <div className=" max-w-md mx-auto">
                 <Header />
                 <NavBar />
-                <main>
+                <main className="flex flex-col bg-slate-600 p-4 mt-4 rounded">
                     {children}
                 </main>
                 <Footer />
