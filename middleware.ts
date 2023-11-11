@@ -6,6 +6,7 @@ export async function middleware(request: NextRequest) {
 
     const authenticatedAPIRoutes = [
         pathname.startsWith("/api/user"),
+        pathname.startsWith("/api/post"),
     ]
 
     if (authenticatedAPIRoutes.includes(true)) {
@@ -21,7 +22,7 @@ export async function middleware(request: NextRequest) {
             await jwtVerify(cookie.value, secret);
         } catch (error) {
             console.error(error);
-            return NextResponse.json({ error: "internal server error" }, { status: 500 });
+            return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
         }
     }
 }
