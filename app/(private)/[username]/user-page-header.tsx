@@ -1,5 +1,6 @@
 "use client";
 import useSWR, { mutate } from "swr";
+import { notFound } from "next/navigation";
 
 export default function UserPageHeader({username}: { username: string }) {
     const {
@@ -13,10 +14,14 @@ export default function UserPageHeader({username}: { username: string }) {
         error: errorFollow,
         isLoading: isLoadingFollow
     } = useSWR(() => "/api/follows?user_id=" + dataUser.data[0].id);
+
     
     if(errorFollow || errorUser) return <div>failed to load</div>
     if(isLoadingFollow || isLoadingUser) return <div>loading...</div>
-
+    
+    if(dataUser.data.length == 0) {
+        notFound();
+    }
     console.log(dataUser, dataFollow);
 
     const user = dataUser.data[0];
