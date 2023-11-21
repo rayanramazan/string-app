@@ -17,7 +17,14 @@ export async function GET(requiest: Request) {
         order by created_at desc limit $2 offset $3`;
 
     if(username) {
-        // TODO
+        const userRes = await sql("select * from users where username = $1",
+        [username]);
+        if(userRes.rowCount == 0) {
+            return NextResponse.json({ msg: "not found" });
+        }
+        const user = userRes.rows[0];
+        const postRes = await sql(statement, [user.id, limit, offset]);
+        return NextResponse.json({ data: postRes.rows });
     }
 
     const res = await sql(statement, [jwtPayload.sub, limit, offset]);
