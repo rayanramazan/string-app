@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-function Post({post}: { post: PostI}){
+function Post({ post, showEditBtn }: { post: PostI; showEditBtn?: boolean; }){
     const options: Intl.DateTimeFormatOptions = {
         year: 'numeric',
         month: 'long',
@@ -13,7 +13,8 @@ function Post({post}: { post: PostI}){
     const createAt = new Date(post.created_at).toLocaleDateString('en-US', options);
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mt-4">
+            <div className="flex justify-between">
             <Link href={`/${post.username}`} className="flex items-stretch gap-4">
                 {post.avatar && (
                 <Image src={post.avatar} alt={post.username} width={50} height={50} className="rounded-full max-h-[50px]" />
@@ -28,8 +29,12 @@ function Post({post}: { post: PostI}){
                     <p className="mt-4 text-white/80">{post.content}</p>
                 </div>
             </Link>
+            {showEditBtn && (
+                <Link href={`/profile/edit-post/${post.id}`} className="text-green-400">Edit</Link>
+            )}
+            </div>
 
-            <hr className="mt-5" />
+            <hr className="my-5" />
         </div>
         
     )

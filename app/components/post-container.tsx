@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PostList from './post-list';
 
 
-function PostContainer({ username }: { username: string }) {
+function PostContainer({ username, showEditBtn }: { username: string; showEditBtn?: boolean; }) {
     const [cnt, setCnt] = useState(1);
 
     const pages = [];
@@ -12,6 +12,7 @@ function PostContainer({ username }: { username: string }) {
                 index={i}
                 username={username}
                 key={i}
+                showEditBtn={showEditBtn}
             />
         )
     }

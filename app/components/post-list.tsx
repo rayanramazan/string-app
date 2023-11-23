@@ -3,10 +3,12 @@ import Post from "./post";
 
 function PostList({
     index,
-    username
+    username,
+    showEditBtn
 }: {
     index: number;
     username: string;
+    showEditBtn?: boolean;
 }){
     const { data, error, isLoading } = useSWR(() => "api/post?page=" + index + "&username=" + username);
 
@@ -18,7 +20,7 @@ function PostList({
             {data.data.map((post: PostI) => {
                 return (
                     <li key={post.id}>
-                        <Post post={post} />
+                        <Post post={post} showEditBtn={showEditBtn} />
                     </li>
                 );
             })}
