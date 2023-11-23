@@ -9,7 +9,7 @@ function Form() {
         e.preventDefault();
 
         const res = await fetch("/api/post", {
-            method: "post",
+            method: "POST",
             body: JSON.stringify({content: post})
         });
 
